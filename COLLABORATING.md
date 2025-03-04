@@ -7,8 +7,8 @@ Ce document explique comment nous allons travailler ensemble sur le projet ProMa
 ### 1. Cloner le repository
 
 ```bash
-git clone https://github.com/[nom-utilisateur]/ProManage-SaaS.git
-cd ProManage-SaaS
+git clone https://github.com/Aqu1tain/ProManage.git
+cd ProManage
 ```
 
 ### 2. Installer les dépendances
