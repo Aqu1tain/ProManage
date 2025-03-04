@@ -1,67 +1,140 @@
+/* Style général pour le corps de la page */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
-}
-
-.container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center;
-}
-
-h2 {
-    margin-bottom: 20px;
-}
-
-form {
-    display: flex;
     flex-direction: column;
 }
 
+/* En-tête */
+h1, h2 {
+    color: #333;
+    text-align: center;
+}
+
+/* Formulaires */
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    max-width: 100%;
+    margin: 20px 0;
+}
+
 label {
-    text-align: left;
-    margin-bottom: 5px;
+    display: block;
+    margin-bottom: 8px;
     font-weight: bold;
 }
 
-input {
+input[type="email"],
+input[type="password"],
+input[type="text"],
+select {
+    width: 100%;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
 button {
-    background: #007BFF;
+    width: 100%;
+    padding: 12px;
+    background-color: #5cb85c;
     color: white;
     border: none;
-    padding: 10px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-    background: #0056b3;
+    background-color: #4cae4c;
 }
 
-p {
-    margin-top: 10px;
+/* Messages d'alerte */
+.alert {
+    color: #d9534f;
+    background-color: #f2dede;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
 }
 
-a {
-    color: #007BFF;
-    text-decoration: none;
+/* Style pour le tableau de bord */
+#dashboard {
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
 
-a:hover {
-    text-decoration: underline;
+#dashboard h2 {
+    text-align: left;
+}
+
+#projectList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#projectList li {
+    background-color: #f9f9f9;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button#logoutBtn {
+    margin-top: 20px;
+    background-color: #d9534f;
+    border: none;
+    padding: 12px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 5px;
+}
+
+button#logoutBtn:hover {
+    background-color: #c9302c;
+}
+
+button#createProjectBtn {
+    margin-top: 20px;
+    background-color: #5bc0de;
+    border: none;
+    padding: 12px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 5px;
+}
+
+button#createProjectBtn:hover {
+    background-color: #31b0d5;
+}
+
+/* Style pour le message de bienvenue */
+#welcomeMessage {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
 }

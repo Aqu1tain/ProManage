@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <header>
+        <h1 id="welcomeMessage">Bienvenue</h1>
+    </header>
+
+    <div>
+        <!-- Bouton pour créer un projet, visible uniquement si le rôle est "Chef de projet" -->
+        <button id="createProjectBtn" style="display:none;">Créer un projet</button>
+
+        <!-- Bouton de déconnexion -->
+        <button id="logoutBtn">Déconnexion</button>
+    </div>
+
+    <h2>Projets :</h2>
+    <!-- Liste des projets affichée ici -->
+    <ul id="projectList"></ul>
+
+    <script src="assets/dashboard.js"></script>
+</body>
+</html>
