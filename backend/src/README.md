@@ -35,8 +35,9 @@ Le backend est construit sur les technologies suivantes :
 
 1. Cloner le repository
 ```bash
-git clone https://github.com/votre-organisation/promanage-backend.git
-cd promanage-backend
+git clone https://github.com/Aqu1tain/promanage.git
+cd promanage
+cd backend
 ```
 
 2. Installer les dépendances
