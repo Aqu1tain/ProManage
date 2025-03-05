@@ -111,17 +111,32 @@ document.addEventListener('DOMContentLoaded', () => {
         alert(`Affichage du projet ${projectId} à implémenter`);
       });
     });
-  }
+}
   
   // Fonction pour créer un nouveau projet
-  async function createProject(name, description) {
+async function createProject(name, description) {
     try {
+      // Récupérer le team_id depuis les informations de l'utilisateur
+      const user = getUserInfo();
+      const team_id = user.team_id;
+      
+      if (!team_id) {
+        alert('Erreur: Identifiant d\'équipe manquant');
+        return;
+      }
+      
+      // Préparer les données au format attendu par l'API
+      const projectData = {
+        name,
+        description,
+        team_id
+      };
+      
+      console.log('Création du projet avec les données:', projectData);
+      
       const response = await authenticatedFetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.PROJECTS}`, {
         method: 'POST',
-        body: JSON.stringify({
-          name,
-          description
-        })
+        body: JSON.stringify(projectData)
       });
       
       const data = await response.json();
@@ -138,4 +153,4 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Erreur lors de la création du projet:', error);
       alert('Une erreur est survenue lors de la création du projet');
     }
-  }
+}
