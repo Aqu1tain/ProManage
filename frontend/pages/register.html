@@ -20,6 +20,11 @@
             <label for="password">Mot de passe</label>
             <input type="password" id="password" name="password" required>
             
+            <div id="team-name-container" style="display: none;">
+                <label for="team-name">Nom de l'équipe</label>
+                <input type="text" id="team-name" name="team-name" required>
+            </div>
+
             <label for="role">Rôle</label>
             <select id="role" name="role" required>
                 <option value="contributeur">Contributeur</option>
@@ -33,5 +38,16 @@
     </div>
     <script src="../assets/js/auth.js"></script>
     <script src="../assets/js/register.js"></script>
+    <script src="../assets/js/config.js"></script>
+    <script>
+    document.getElementById('role').addEventListener('change', function() {
+        const teamNameContainer = document.getElementById('team-name-container');
+        if (this.value === 'chef_de_projet') {
+            teamNameContainer.style.display = 'block';
+        } else {
+            teamNameContainer.style.display = 'none';
+        }
+    });
+</script>
 </body>
 </html>
