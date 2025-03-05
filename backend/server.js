@@ -1,33 +1,24 @@
-const express = require('express');
-const cors = require('cors');
-const { testSQLConnection, connectMongo } = require('./config/db');
 require('dotenv').config();
+const app = require('./src/app');
+const logger = require('./src/config/logger');
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Routes de base
-app.get('/', (req, res) => {
-  res.json({ message: 'Bienvenue sur l\'API ProManage!' });
+const server = app.listen(PORT, () => {
+  logger.info(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 });
 
-// Tester les connexions aux bases de données au démarrage
-const initServer = async () => {
-  const sqlConnected = await testSQLConnection();
-  const mongoConnected = await connectMongo();
-  
-  if (sqlConnected && mongoConnected) {
-    app.listen(PORT, () => {
-      console.log(`Serveur en cours d'exécution sur le port ${PORT}`);
-    });
-  } else {
-    console.error('Impossible de démarrer le serveur en raison de problèmes de connexion à la base de données');
-  }
-};
+// Gestion des erreurs non capturées
+process.on('uncaughtException', (err) => {
+  logger.error('UNCAUGHT EXCEPTION! Shutting down...');
+  logger.error(err.name, err.message);
+  process.exit(1);
+});
 
-initServer();
+process.on('unhandledRejection', (err) => {
+  logger.error('UNHANDLED REJECTION! Shutting down...');
+  logger.error(err.name, err.message);
+  server.close(() => {
+    process.exit(1);
+  });
+});
