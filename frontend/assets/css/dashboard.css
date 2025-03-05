@@ -32,3 +32,22 @@ header {
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+
+.error {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.view-project-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: auto;
+}
+
+.view-project-btn:hover {
+    background-color: #0056b3;
+}
