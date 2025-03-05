@@ -1,25 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('login-form');
     const errorMessage = document.getElementById('error-message');
-
-    loginForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        // Exemple de validation simple
-        if (username === 'admin' && password === 'password') {
-            // Stocker des infos utilisateur simulées (à remplacer par JWT)
-            localStorage.setItem('token', 'fake-jwt-token');
-            localStorage.setItem('user', JSON.stringify({
-                username: username,
-                role: 'chef_de_projet'
-            }));
-            
-            window.location.href = 'dashboard.html';
+  
+    // Si l'utilisateur est déjà connecté, le rediriger vers le tableau de bord
+    if (isLoggedIn()) {
+      window.location.href = 'dashboard.html';
+      return;
+    }
+  
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      try {
+        // Appel à l'API de connexion
+        const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.LOGIN}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          // Stocker le token JWT
+          localStorage.setItem('token', data.token);
+          // Stocker les informations de l'utilisateur
+          localStorage.setItem('user', JSON.stringify(data.user));
+          
+          // Rediriger vers le tableau de bord
+          window.location.href = 'dashboard.html';
         } else {
-            errorMessage.textContent = 'Nom d\'utilisateur ou mot de passe incorrect.';
+          // Afficher le message d'erreur du serveur
+          errorMessage.textContent = data.message || 'Erreur lors de la connexion';
         }
+      } catch (error) {
+        console.error('Erreur de connexion:', error);
+        errorMessage.textContent = 'Une erreur est survenue. Veuillez réessayer.';
+      }
     });
-});
+  });
