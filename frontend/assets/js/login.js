@@ -22,22 +22,30 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify({ email, password })
         });
         
-        const data = await response.json();
+        const responseData = await response.json();
         
         if (response.ok) {
-          // Stocker le token JWT
-          localStorage.setItem('token', data.token);
-          // Stocker les informations de l'utilisateur
-          localStorage.setItem('user', JSON.stringify(data.user));
-          
-          // Rediriger vers le tableau de bord
-          window.location.href = 'dashboard.html';
+          // Accéder correctement aux données dans la structure de réponse
+          if (responseData.data && responseData.data.token && responseData.data.user) {
+            // Stocker le token JWT
+            localStorage.setItem('token', responseData.data.token);
+            // Stocker les informations de l'utilisateur
+            localStorage.setItem('user', JSON.stringify(responseData.data.user));
+            
+            console.log('Connexion réussie', responseData.data);
+            
+            // Rediriger vers le tableau de bord
+            window.location.href = 'dashboard.html';
+          } else {
+            console.error('Structure de réponse inattendue', responseData);
+            errorMessage.textContent = 'Erreur de format dans la réponse du serveur';
+          }
         } else {
           // Afficher le message d'erreur du serveur
-          if (data.error && data.error.errors) {
-            errorMessage.textContent = handleApiError(data.error);
+          if (responseData.error && responseData.error.errors) {
+            errorMessage.textContent = handleApiError(responseData.error);
           } else {
-            errorMessage.textContent = data.message || 'Erreur lors de la connexion';
+            errorMessage.textContent = responseData.message || 'Erreur lors de la connexion';
           }
         }
       } catch (error) {
