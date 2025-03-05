@@ -14,4 +14,4 @@ const API_CONFIG = {
       // Tâches
       TASKS: '/tasks',
     }
-  };
+};

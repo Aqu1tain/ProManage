@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   
   // Fonction pour charger les projets
-  async function loadProjects() {
+async function loadProjects() {
     try {
       const projectList = document.getElementById('projectList');
       projectList.innerHTML = '<li>Chargement des projets...</li>';
@@ -65,51 +65,51 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('projectList').innerHTML = 
         '<li class="error">Erreur lors du chargement des projets</li>';
     }
-  }
+}
   
   // Fonction pour afficher la liste des projets
-  function displayProjects(projects) {
+function displayProjects(projects) {
     const projectList = document.getElementById('projectList');
     projectList.innerHTML = '';
     
     if (projects.length === 0) {
-      projectList.innerHTML = '<li>Aucun projet disponible</li>';
-      return;
+        projectList.innerHTML = '<li>Aucun projet disponible</li>';
+        return;
     }
     
     projects.forEach(project => {
-      const li = document.createElement('li');
+        const li = document.createElement('li');
+        
+        // Formater la date de création
+        const createdDate = new Date(project.createdAt);
+        const formattedDate = createdDate.toLocaleDateString('fr-FR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
       
-      // Formater la date de création
-      const createdDate = new Date(project.createdAt);
-      const formattedDate = createdDate.toLocaleDateString('fr-FR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
+        // Traduire le statut
+        const statusText = project.status === 'active' ? 'Actif' : 'Archivé';
       
-      // Traduire le statut
-      const statusText = project.status === 'active' ? 'Actif' : 'Archivé';
-      
-      li.innerHTML = `
-        <h3>${project.name}</h3>
-        <p>${project.description || 'Aucune description'}</p>
-        <div class="project-meta">
-          <span class="project-status status-${project.status}">${statusText}</span>
-          <span class="project-date">Créé le ${formattedDate}</span>
-        </div>
-        <button class="view-project-btn" data-id="${project.id}">Voir le projet</button>
-      `;
-      projectList.appendChild(li);
+        li.innerHTML = `
+            <h3>${project.name}</h3>
+            <p>${project.description || 'Aucune description'}</p>
+            <div class="project-meta">
+                <span class="project-status status-${project.status}">${statusText}</span>
+                <span class="project-date">Créé le ${formattedDate}</span>
+            </div>
+            <button class="view-project-btn" data-id="${project.id}">Voir le projet</button>
+            `;
+        projectList.appendChild(li);
     });
     
     // Ajouter les écouteurs d'événements sur les boutons
     document.querySelectorAll('.view-project-btn').forEach(button => {
-      button.addEventListener('click', (e) => {
-        const projectId = e.target.getAttribute('data-id');
-        // À implémenter plus tard - naviguer vers la page du projet
-        alert(`Affichage du projet ${projectId} à implémenter`);
-      });
+        button.addEventListener('click', (e) => {
+          const projectId = e.target.getAttribute('data-id');
+          // Rediriger vers la page du projet avec l'ID
+          window.location.href = `project.html?id=${projectId}`;
+        });
     });
 }
   

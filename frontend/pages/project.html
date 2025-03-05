@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProManage - Détails du projet</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/project.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 id="projectName">Chargement du projet...</h1>
+            <div class="header-actions">
+                <button id="backBtn">Retour</button>
+                <button id="logoutBtn">Déconnexion</button>
+            </div>
+        </div>
+        <div id="projectDescription" class="project-description"></div>
+        <div id="projectMeta" class="project-meta">
+            <span id="projectStatus" class="project-status"></span>
+            <span id="projectDate" class="project-date"></span>
+        </div>
+    </header>
+
+    <main>
+        <div class="project-actions">
+            <button id="addTaskBtn">Ajouter une tâche</button>
+        </div>
+
+        <div class="task-container">
+            <div class="task-column">
+                <h2>À faire</h2>
+                <div id="todoTasks" class="task-list"></div>
+            </div>
+            <div class="task-column">
+                <h2>En cours</h2>
+                <div id="inProgressTasks" class="task-list"></div>
+            </div>
+            <div class="task-column">
+                <h2>Terminé</h2>
+                <div id="completedTasks" class="task-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal pour ajouter/modifier une tâche -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Ajouter une tâche</h2>
+            <form id="taskForm">
+                <input type="hidden" id="taskId">
+                <div class="form-group">
+                    <label for="taskTitle">Titre</label>
+                    <input type="text" id="taskTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskDescription">Description</label>
+                    <textarea id="taskDescription" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="taskStatus">Statut</label>
+                    <select id="taskStatus">
+                        <option value="todo">À faire</option>
+                        <option value="in_progress">En cours</option>
+                        <option value="completed">Terminé</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskAssignee">Assigné à</label>
+                    <select id="taskAssignee">
+                        <!-- Les options seront remplies dynamiquement -->
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelBtn">Annuler</button>
+                    <button type="submit" id="saveTaskBtn">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/project.js"></script>
+</body>
+</html>
