@@ -20,13 +20,21 @@ document.addEventListener('DOMContentLoaded', () => {
       if (user.role === 'project_manager') {
         createProjectBtn.style.display = 'inline-block';
       }
-      
-      console.log('Informations utilisateur:', user);
     }
   
     // Gérer la déconnexion
     logoutBtn.addEventListener('click', () => {
       logout();
+    });
+  
+    // Ajouter l'événement pour créer un projet
+    createProjectBtn.addEventListener('click', () => {
+      // Pour l'instant, afficher une boîte de dialogue simple
+      const projectName = prompt('Nom du projet:');
+      if (projectName) {
+        const projectDescription = prompt('Description du projet:');
+        createProject(projectName, projectDescription);
+      }
     });
   
     // Charger les projets depuis l'API
@@ -37,31 +45,21 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadProjects() {
     try {
       const projectList = document.getElementById('projectList');
+      projectList.innerHTML = '<li>Chargement des projets...</li>';
       
-      // Pour le moment, afficher des projets d'exemple
-      // À remplacer par l'appel API ci-dessous une fois implémenté
-      const exampleProjects = [
-        { id: 1, name: 'Projet A', description: 'Description du projet A' },
-        { id: 2, name: 'Projet B', description: 'Description du projet B' }
-      ];
-  
-      /*
-      // Code pour récupérer les projets depuis l'API (à activer plus tard)
       const response = await authenticatedFetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.PROJECTS}`);
       const data = await response.json();
       
+      console.log('Réponse API projets:', data);
+      
       if (response.ok && data.status === 'success') {
-        const projects = data.data.projects || [];
+        // Les projets sont directement dans data.data (tableau)
+        const projects = data.data || [];
         displayProjects(projects);
       } else {
         console.error('Erreur lors du chargement des projets:', data.message);
         projectList.innerHTML = '<li class="error">Impossible de charger les projets</li>';
       }
-      */
-      
-      // Afficher les projets d'exemple pour le moment
-      displayProjects(exampleProjects);
-      
     } catch (error) {
       console.error('Erreur lors du chargement des projets:', error);
       document.getElementById('projectList').innerHTML = 
@@ -81,9 +79,25 @@ document.addEventListener('DOMContentLoaded', () => {
     
     projects.forEach(project => {
       const li = document.createElement('li');
+      
+      // Formater la date de création
+      const createdDate = new Date(project.createdAt);
+      const formattedDate = createdDate.toLocaleDateString('fr-FR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+      
+      // Traduire le statut
+      const statusText = project.status === 'active' ? 'Actif' : 'Archivé';
+      
       li.innerHTML = `
         <h3>${project.name}</h3>
-        <p>${project.description}</p>
+        <p>${project.description || 'Aucune description'}</p>
+        <div class="project-meta">
+          <span class="project-status status-${project.status}">${statusText}</span>
+          <span class="project-date">Créé le ${formattedDate}</span>
+        </div>
         <button class="view-project-btn" data-id="${project.id}">Voir le projet</button>
       `;
       projectList.appendChild(li);
@@ -93,8 +107,35 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.view-project-btn').forEach(button => {
       button.addEventListener('click', (e) => {
         const projectId = e.target.getAttribute('data-id');
-        // Rediriger vers la page du projet (à implémenter plus tard)
-        console.log(`Afficher le projet ${projectId}`);
+        // À implémenter plus tard - naviguer vers la page du projet
+        alert(`Affichage du projet ${projectId} à implémenter`);
       });
     });
+  }
+  
+  // Fonction pour créer un nouveau projet
+  async function createProject(name, description) {
+    try {
+      const response = await authenticatedFetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.PROJECTS}`, {
+        method: 'POST',
+        body: JSON.stringify({
+          name,
+          description
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok && data.status === 'success') {
+        alert('Projet créé avec succès!');
+        // Recharger la liste des projets
+        loadProjects();
+      } else {
+        console.error('Erreur lors de la création du projet:', data);
+        alert(`Erreur: ${data.message || 'Impossible de créer le projet'}`);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la création du projet:', error);
+      alert('Une erreur est survenue lors de la création du projet');
+    }
   }
