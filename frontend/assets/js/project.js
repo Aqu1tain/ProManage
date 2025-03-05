@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         case "in_progress":
                             inProgressTasks.appendChild(taskElement);
                             break;
-                        case "completed":
+                        case "done":
                             completedTasks.appendChild(taskElement);
                             break;
                         default:
