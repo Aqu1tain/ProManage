@@ -4,6 +4,7 @@ const { AppError } = require('../utils/error.utils');
 const { generateToken, filterUserData } = require('../utils/helpers');
 const { roles } = require('../config/auth');
 const { sequelize } = require('../config/database');
+const crypto = require('crypto');
 
 /**
  * Service pour l'authentification et la gestion des utilisateurs
@@ -16,42 +17,43 @@ class AuthService {
    */
   async registerProjectManager(userData) {
     const { name, email, password, team_name, description } = userData;
-
+  
     // Vérifier si l'email existe déjà
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       throw new AppError('Cet email est déjà utilisé', 400);
     }
-
+  
     // Utiliser une transaction pour assurer l'atomicité
     const transaction = await sequelize.transaction();
-
+  
     try {
-      // Créer l'équipe
-      const team = await Team.create({
-        name: team_name,
-        description: description || `Équipe de ${name}`,
-        manager_id: null // On le mettra à jour après avoir créé l'utilisateur
-      }, { transaction });
-
-      // Créer l'utilisateur
+      // Créer l'utilisateur d'abord
       const user = await User.create({
         name,
         email,
         password,
         role: roles.PROJECT_MANAGER,
-        team_id: team.id
+        team_id: null // On mettra à jour plus tard
       }, { transaction });
-
-      // Mettre à jour l'équipe avec l'ID du chef de projet
-      await team.update({ manager_id: user.id }, { transaction });
-
+  
+      // Créer l'équipe avec l'ID utilisateur déjà disponible
+      const team = await Team.create({
+        name: team_name,
+        description: description || `Équipe de ${name}`,
+        manager_id: user.id, // Utiliser l'ID utilisateur ici
+        invitation_key: crypto.randomBytes(16).toString('hex')
+      }, { transaction });
+  
+      // Mettre à jour l'utilisateur avec l'ID de l'équipe
+      await user.update({ team_id: team.id }, { transaction });
+  
       // Valider la transaction
       await transaction.commit();
-
+  
       // Générer un token
       const token = generateToken(user);
-
+  
       return {
         user: filterUserData(user),
         team,
