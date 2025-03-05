@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         case "in_progress":
                             inProgressTasks.appendChild(taskElement);
                             break;
-                        case "completed":
+                        case "done":
                             completedTasks.appendChild(taskElement);
                             break;
                         default:
@@ -310,56 +310,85 @@ document.addEventListener("DOMContentLoaded", () => {
         const description = document.getElementById("taskDescription").value;
         const status = document.getElementById("taskStatus").value;
 
-        // Préparer les données de la tâche
-        const taskData = {
-            title,
-            description,
-            status,
-            project_id: projectId,
-        };
-
         try {
-            let url, method;
+            let response, data;
 
             if (taskId) {
                 // Mise à jour d'une tâche existante
-                url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.TASKS}/${taskId}`;
-                method = "PUT";
+                // 1. D'abord mettre à jour les informations principales
+                response = await authenticatedFetch(
+                    `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.TASKS}/${taskId}`,
+                    {
+                        method: "PUT",
+                        body: JSON.stringify({
+                            title,
+                            description,
+                        }),
+                    }
+                );
+
+                data = await response.json();
+
+                if (!response.ok || data.status !== "success") {
+                    throw new Error(
+                        data.message ||
+                            "Échec de la mise à jour des informations de la tâche"
+                    );
+                }
+
+                // 2. Ensuite mettre à jour le statut via l'endpoint dédié
+                response = await authenticatedFetch(
+                    `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.TASKS}/${taskId}/status`,
+                    {
+                        method: "PUT",
+                        body: JSON.stringify({ status }),
+                    }
+                );
+
+                data = await response.json();
+
+                if (!response.ok || data.status !== "success") {
+                    throw new Error(
+                        data.message || "Échec de la mise à jour du statut"
+                    );
+                }
             } else {
                 // Création d'une nouvelle tâche
-                url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.TASKS}`;
-                method = "POST";
+                response = await authenticatedFetch(
+                    `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.TASKS}`,
+                    {
+                        method: "POST",
+                        body: JSON.stringify({
+                            title,
+                            description,
+                            status,
+                            project_id: projectId,
+                        }),
+                    }
+                );
+
+                data = await response.json();
+
+                if (!response.ok || data.status !== "success") {
+                    throw new Error(
+                        data.message || "Échec de la création de la tâche"
+                    );
+                }
             }
 
-            const response = await authenticatedFetch(url, {
-                method,
-                body: JSON.stringify(taskData),
-            });
-
-            const data = await response.json();
-
-            if (response.ok && data.status === "success") {
-                // Fermer le modal et recharger les tâches
-                closeTaskModal();
-                loadTasks(projectId);
-            } else {
-                console.error(
-                    "Erreur lors de l'enregistrement de la tâche:",
-                    data
-                );
-                alert(
-                    `Erreur: ${
-                        data.message || "Impossible d'enregistrer la tâche"
-                    }`
-                );
-            }
+            // Fermer le modal et recharger les tâches
+            closeTaskModal();
+            loadTasks(projectId);
         } catch (error) {
             console.error(
                 "Erreur lors de l'enregistrement de la tâche:",
                 error
             );
             alert(
-                "Une erreur est survenue lors de l'enregistrement de la tâche"
+                `Erreur: ${
+                    error.message ||
+                    "Une erreur est survenue lors de l'enregistrement de la tâche"
+                }`
             );
         }
     }
