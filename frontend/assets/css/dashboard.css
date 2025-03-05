@@ -1,0 +1,91 @@
+/* Styles spécifiques au tableau de bord */
+header {
+    background-color: #007BFF;
+    color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+body {
+    padding: 0 20px;
+}
+
+#logoutBtn {
+    width: auto;
+    margin-right: 10px;
+}
+
+#createProjectBtn {
+    width: auto;
+    background-color: #28a745;
+}
+
+#createProjectBtn:hover {
+    background-color: #218838;
+}
+
+#projectList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#projectList li {
+    background-color: white;
+    margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#projectList h3 {
+    margin-top: 0;
+    color: #007BFF;
+}
+
+.project-meta {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+.project-status {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.85em;
+}
+
+.status-active {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-archived {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.project-date {
+    color: #6c757d;
+}
+
+.error {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.view-project-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: auto;
+    margin-top: 10px;
+}
+
+.view-project-btn:hover {
+    background-color: #0056b3;
+}
