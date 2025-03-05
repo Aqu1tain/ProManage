@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', async (event) => {
       event.preventDefault();
       
-      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
       
       try {
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.LOGIN}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
+          body: JSON.stringify({ email, password })
         });
         
         const data = await response.json();
@@ -34,7 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
           window.location.href = 'dashboard.html';
         } else {
           // Afficher le message d'erreur du serveur
-          errorMessage.textContent = data.message || 'Erreur lors de la connexion';
+          if (data.error && data.error.errors) {
+            errorMessage.textContent = handleApiError(data.error);
+          } else {
+            errorMessage.textContent = data.message || 'Erreur lors de la connexion';
+          }
         }
       } catch (error) {
         console.error('Erreur de connexion:', error);

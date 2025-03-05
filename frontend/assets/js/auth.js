@@ -49,3 +49,14 @@ function isLoggedIn() {
       throw error;
     }
   }
+  
+  // Fonction de gestion des erreurs API
+  function handleApiError(error) {
+    if (error && error.errors && Array.isArray(error.errors)) {
+      // Récupérer le premier message d'erreur de validation
+      return error.errors[0].message;
+    } else if (error.message) {
+      return error.message;
+    }
+    return 'Une erreur est survenue. Veuillez réessayer.';
+  }

@@ -1,6 +1,6 @@
 // Configuration de l'API
 const API_CONFIG = {
-    BASE_URL: 'http://localhost:3000/api', // URL de base de l'API
+    BASE_URL: 'http://localhost:5000/api', // URL de base de l'API
     ENDPOINTS: {
       // Authentification
       LOGIN: '/auth/login',
