@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="signup-container">
+    <div class="container">
         <h2>Créer un compte</h2>
         <form id="signup-form">
             <label for="username">Nom d'utilisateur</label>
@@ -19,10 +19,16 @@
             <label for="password">Mot de passe</label>
             <input type="password" id="password" name="password" required>
             
+            <label for="role">Rôle</label>
+            <select id="role" name="role" required>
+                <option value="contributeur">Contributeur</option>
+                <option value="chef_de_projet">Chef de projet</option>
+            </select>
+            
             <button type="submit">S'inscrire</button>
         </form>
         <p id="error-message" class="error-message"></p>
     </div>
-    <script src="/frontend/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

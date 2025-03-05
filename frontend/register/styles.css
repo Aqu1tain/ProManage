@@ -8,7 +8,7 @@ body {
     background-color: #f0f0f0;
 }
 
-.signup-container {
+.container {
     background-color: #fff;
     padding: 30px;
     border-radius: 8px;
@@ -28,7 +28,7 @@ label {
     text-align: left;
 }
 
-input {
+input, select {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
@@ -46,6 +46,7 @@ button {
     border-radius: 4px;
     cursor: pointer;
     box-sizing: border-box;
+    display: block; /* Assurez-vous que le bouton est un bloc */
 }
 
 button:hover {

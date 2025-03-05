@@ -1,24 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('login-form');
-    const errorMessage = document.getElementById('error-message');
-
-    loginForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        // Exemple de validation simple
-        if (username === 'admin' && password === 'password') {
-            alert('Connexion réussie !');
-            errorMessage.textContent = '';
-        } else {
-            errorMessage.textContent = 'Nom d\'utilisateur ou mot de passe incorrect.';
-        }
-    });
-});
-
-document.addEventListener('DOMContentLoaded', () => {
     const signupForm = document.getElementById('signup-form');
     const errorMessage = document.getElementById('error-message');
 
@@ -28,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const username = document.getElementById('username').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+        const role = document.getElementById('role').value;
 
         try {
             const response = await fetch('/signup', {
@@ -35,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ username, email, password })
+                body: JSON.stringify({ username, email, password, role })
             });
 
             const result = await response.json();
@@ -43,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 alert('Compte créé avec succès !');
                 errorMessage.textContent = '';
+                window.location.href = "/frontend/login/index.html"; // Redirection vers la page de login
             } else {
                 errorMessage.textContent = result.message;
             }
