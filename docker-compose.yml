@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
   # Service MySQL
   mysql:
-    image: mysql:8.0
+    image: mysql:5.7
     container_name: promanage-mysql
     restart: unless-stopped
     environment:
@@ -28,36 +26,34 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
-      # Le script setup-mongodb.js sera exécuté manuellement
     networks:
       - promanage-network
 
   # Service Node.js (notre application ProManage)
-  # Décommenter cette section quand l'application sera prête pour le déploiement
-  # app:
-  #   build: .
-  #   container_name: promanage-app
-  #   restart: unless-stopped
-  #   depends_on:
-  #     - mysql
-  #     - mongodb
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     - NODE_ENV=development
-  #     - PORT=3000
-  #     - DB_HOST=mysql
-  #     - DB_PORT=3306
-  #     - DB_NAME=promanage
-  #     - DB_USER=promanage_user
-  #     - DB_PASSWORD=password
-  #     - MONGO_URI=mongodb://mongodb:27017/promanage-logs
-  #     - JWT_SECRET=your_jwt_secret_key
-  #     - JWT_EXPIRES_IN=7d
-  #   volumes:
-  #     - ./:/app
-  #   networks:
-  #     - promanage-network
+  app:
+    build: .
+    container_name: promanage-app
+    restart: unless-stopped
+    depends_on:
+      - mysql
+      - mongodb
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=promanage
+      - DB_USER=promanage_user
+      - DB_PASSWORD=password
+      - MONGO_URI=mongodb://mongodb:27017/promanage-logs
+      - JWT_SECRET=your_jwt_secret_key
+      - JWT_EXPIRES_IN=7d
+    volumes:
+      - ./:/app
+    networks:
+      - promanage-network
 
 # Volume persistant pour les données
 volumes:
