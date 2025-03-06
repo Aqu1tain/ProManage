@@ -4,26 +4,49 @@ header {
     color: white;
     padding: 20px;
     margin-bottom: 20px;
+    text-align: center;
+    position: relative; /* Permet de bien placer le bouton logout */
 }
 
-body {
-    padding: 0 20px;
-}
-
+/* 🔹 Bouton "Déconnexion" en petit à droite */
 #logoutBtn {
-    width: auto;
-    margin-right: 10px;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px; /* Taille de police petite */
+    transition: none; /* Retirer l'effet de transition */
+    width: auto; /* Empêche de prendre toute la largeur */
+    display: inline-block; /* Cela le rend plus petit et le place correctement */
 }
 
+/* 🔹 Container du bouton "Créer un projet" */
+.create-project-container {
+    display: flex;
+    justify-content: center; /* Centrer le bouton "Créer un projet" */
+    margin-top: 20px;
+}
+
+/* 🔹 Bouton "Créer un projet" qui prend toute la largeur */
 #createProjectBtn {
-    width: auto;
-    background-color: #28a745;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: none; /* Retirer l'effet de transition */
+    width: 100%; /* Prend toute la largeur */
+    max-width: 600px; /* Pour éviter qu'il soit trop large sur les grands écrans */
 }
 
-#createProjectBtn:hover {
-    background-color: #218838;
-}
-
+/* 🔹 Liste des projets */
 #projectList {
     list-style-type: none;
     padding: 0;
@@ -42,6 +65,7 @@ body {
     color: #007BFF;
 }
 
+/* 🔹 Métadonnées des projets */
 .project-meta {
     display: flex;
     justify-content: space-between;
@@ -50,6 +74,7 @@ body {
     color: #6c757d;
 }
 
+/* 🔹 Statuts des projets */
 .project-status {
     padding: 3px 8px;
     border-radius: 12px;
@@ -70,11 +95,7 @@ body {
     color: #6c757d;
 }
 
-.error {
-    color: #dc3545;
-    font-weight: bold;
-}
-
+/* 🔹 Bouton de visualisation */
 .view-project-btn {
     background-color: #007BFF;
     color: white;
