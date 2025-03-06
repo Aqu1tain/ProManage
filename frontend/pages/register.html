@@ -1,53 +1,86 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProManage - Inscription</title>
-    <link rel="stylesheet" href="../assets/css/main.css">
-    <link rel="stylesheet" href="../assets/css/register.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProManage - Inscription</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/register.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Créer un compte</h2>
-        <form id="signup-form">
-            <label for="username">Nom d'utilisateur</label>
-            <input type="text" id="username" name="username" required>
-            
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-            
-            <label for="password">Mot de passe</label>
-            <input type="password" id="password" name="password" required>
-            
-            <div id="team-name-container" style="display: none;">
-                <label for="team-name">Nom de l'équipe</label>
-                <input type="text" id="team-name" name="team-name" required>
-            </div>
-
-            <label for="role">Rôle</label>
-            <select id="role" name="role" required>
-                <option value="contributeur">Contributeur</option>
-                <option value="chef_de_projet">Chef de projet</option>
-            </select>
-            
-            <button type="submit">S'inscrire</button>
-        </form>
-        <p id="error-message" class="error-message"></p>
-        <p>Déjà un compte ? <a href="index.html">Se connecter</a></p>
-    </div>
-    <script src="../assets/js/auth.js"></script>
-    <script src="../assets/js/register.js"></script>
-    <script src="../assets/js/config.js"></script>
-    <script>
-    document.getElementById('role').addEventListener('change', function() {
+  <div class="container">
+    <h2>Créer un compte</h2>
+    <form id="signup-form">
+      <label for="username">Nom d'utilisateur</label>
+      <input type="text" id="username" name="username" required>
+      
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+      
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" name="password" required>
+      
+      <label for="role">Rôle</label>
+      <select id="role" name="role" required>
+        <option value="contributeur">Contributeur</option>
+        <option value="chef_de_projet">Chef de projet</option>
+      </select>
+      
+      <!-- Bloc pour le nom d'équipe -->
+      <div id="team-name-container" style="display: none;">
+        <label for="team-name">Nom de l'équipe</label>
+        <input type="text" id="team-name" name="team-name" disabled>
+      </div>
+      
+      <!-- Bloc pour la clé d'invitation -->
+      <div id="invitation-key-container" style="display: none;">
+        <label for="invitationKeyInput">Clé d'invitation</label>
+        <input type="text" id="invitationKeyInput" name="invitationKey" disabled>
+      </div>
+      
+      <button type="submit">S'inscrire</button>
+    </form>
+    <p id="error-message" class="error-message"></p>
+    <p>Déjà un compte ? <a href="index.html">Se connecter</a></p>
+  </div>
+  
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/register.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script>
+    const roleSelect = document.getElementById('role');
+    roleSelect.addEventListener('change', function() {
         const teamNameContainer = document.getElementById('team-name-container');
+        const invitationKeyContainer = document.getElementById('invitation-key-container');
+        const teamNameInput = document.getElementById('team-name');
+        const invitationKeyInput = document.getElementById('invitationKeyInput');
+        
         if (this.value === 'chef_de_projet') {
-            teamNameContainer.style.display = 'block';
+        teamNameContainer.style.display = 'block';
+        teamNameInput.disabled = false;
+        teamNameInput.required = true;
+        invitationKeyContainer.style.display = 'none';
+        invitationKeyInput.disabled = true;
+        invitationKeyInput.required = false;
+        } else if (this.value === 'contributeur') {
+        teamNameContainer.style.display = 'none';
+        teamNameInput.disabled = true;
+        teamNameInput.required = false;
+        invitationKeyContainer.style.display = 'block';
+        invitationKeyInput.disabled = false;
+        invitationKeyInput.required = true;
         } else {
-            teamNameContainer.style.display = 'none';
+        teamNameContainer.style.display = 'none';
+        teamNameInput.disabled = true;
+        teamNameInput.required = false;
+        invitationKeyContainer.style.display = 'none';
+        invitationKeyInput.disabled = true;
+        invitationKeyInput.required = false;
         }
     });
-</script>
+    // Déclencher l'événement "change" lors du chargement pour mettre à jour l'affichage
+    roleSelect.dispatchEvent(new Event('change'));
+    </script>
+
 </body>
 </html>

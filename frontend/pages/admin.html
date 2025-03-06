@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProManage - Administration</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2>Administration</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="sidebar-nav-item active" data-section="dashboard">
+                        <i class="fas fa-tachometer-alt"></i> Tableau de bord
+                    </li>
+                    <li class="sidebar-nav-item" data-section="users">
+                        <i class="fas fa-users"></i> Utilisateurs
+                    </li>
+                    <li class="sidebar-nav-item" data-section="teams">
+                        <i class="fas fa-user-friends"></i> Équipes
+                    </li>
+                    <li class="sidebar-nav-item" data-section="projects">
+                        <i class="fas fa-project-diagram"></i> Projets
+                    </li>
+                    <li class="sidebar-nav-item" data-section="logs">
+                        <i class="fas fa-history"></i> Logs d'audit
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="backToAppBtn" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour à l'application
+                </button>
+                <button id="logoutBtn" class="btn btn-danger">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </button>
+            </div>
+        </div>
+
+        <div class="admin-content">
+            <header class="admin-header">
+                <h1 id="sectionTitle">Tableau de bord</h1>
+                <div class="admin-user-info">
+                    <span id="adminName">Admin</span>
+                </div>
+            </header>
+
+            <!-- Section Tableau de bord -->
+            <section id="dashboard-section" class="admin-section active">
+                <div class="stats-container">
+                    <div class="stats-card">
+                        <div class="stats-icon users-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>Utilisateurs</h3>
+                            <div id="usersCount" class="stats-number">0</div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="stats-icon teams-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>Équipes</h3>
+                            <div id="teamsCount" class="stats-number">0</div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="stats-icon projects-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>Projets</h3>
+                            <div id="projectsCount" class="stats-number">0</div>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <div class="stats-icon tasks-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stats-info">
+                            <h3>Tâches</h3>
+                            <div id="tasksCount" class="stats-number">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>Statut des projets</h3>
+                        <div id="projectStatusChart" class="chart"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Statut des tâches</h3>
+                        <div id="taskStatusChart" class="chart"></div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Activité récente</h3>
+                    <div id="recentActivityList" class="activity-list">
+                        <div class="loading">Chargement de l'activité récente...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Utilisateurs -->
+            <section id="users-section" class="admin-section">
+                <div class="section-header">
+                    <h2>Gestion des utilisateurs</h2>
+                    <div class="section-actions">
+                        <button id="createUserBtn" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i> Nouvel utilisateur
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <input type="text" id="userSearchInput" placeholder="Rechercher un utilisateur...">
+                        <button id="userSearchBtn" class="btn btn-secondary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="filter-group">
+                        <label for="userRoleFilter">Rôle</label>
+                        <select id="userRoleFilter">
+                            <option value="">Tous</option>
+                            <option value="admin">Admin</option>
+                            <option value="project_manager">Chef de projet</option>
+                            <option value="contributor">Contributeur</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="userTeamFilter">Équipe</label>
+                        <select id="userTeamFilter">
+                            <option value="">Toutes</option>
+                            <!-- Options chargées dynamiquement -->
+                        </select>
+                    </div>
+                </div>
+
+                <div id="usersTableContainer" class="table-container">
+                    <table id="usersTable" class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Équipe</th>
+                                <th>Dernière connexion</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="6" class="loading-cell">Chargement des utilisateurs...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="usersPagination" class="pagination"></div>
+            </section>
+
+            <!-- Section Équipes -->
+            <section id="teams-section" class="admin-section">
+                <div class="section-header">
+                    <h2>Gestion des équipes</h2>
+                    <div class="section-actions">
+                        <button id="createTeamBtn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Nouvelle équipe
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <input type="text" id="teamSearchInput" placeholder="Rechercher une équipe...">
+                        <button id="teamSearchBtn" class="btn btn-secondary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="teamsTableContainer" class="table-container">
+                    <table id="teamsTable" class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Chef d'équipe</th>
+                                <th>Membres</th>
+                                <th>Projets</th>
+                                <th>Date de création</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="6" class="loading-cell">Chargement des équipes...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="teamsPagination" class="pagination"></div>
+            </section>
+
+            <!-- Section Projets -->
+            <section id="projects-section" class="admin-section">
+                <div class="section-header">
+                    <h2>Gestion des projets</h2>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <input type="text" id="projectSearchInput" placeholder="Rechercher un projet...">
+                        <button id="projectSearchBtn" class="btn btn-secondary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="filter-group">
+                        <label for="projectStatusFilter">Statut</label>
+                        <select id="projectStatusFilter">
+                            <option value="">Tous</option>
+                            <option value="active">Actif</option>
+                            <option value="archived">Archivé</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="projectTeamFilter">Équipe</label>
+                        <select id="projectTeamFilter">
+                            <option value="">Toutes</option>
+                            <!-- Options chargées dynamiquement -->
+                        </select>
+                    </div>
+                </div>
+
+                <div id="projectsTableContainer" class="table-container">
+                    <table id="projectsTable" class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Équipe</th>
+                                <th>Statut</th>
+                                <th>Tâches</th>
+                                <th>Date de création</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="6" class="loading-cell">Chargement des projets...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="projectsPagination" class="pagination"></div>
+            </section>
+
+            <!-- Section Logs d'audit -->
+            <section id="logs-section" class="admin-section">
+                <div class="section-header">
+                    <h2>Logs d'audit</h2>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <label for="logActionFilter">Action</label>
+                        <select id="logActionFilter">
+                            <option value="">Toutes</option>
+                            <option value="user.register">Inscription</option>
+                            <option value="user.login">Connexion</option>
+                            <option value="project.create">Création de projet</option>
+                            <option value="task.create">Création de tâche</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="logEntityFilter">Entité</label>
+                        <select id="logEntityFilter">
+                            <option value="">Toutes</option>
+                            <option value="user">Utilisateur</option>
+                            <option value="project">Projet</option>
+                            <option value="task">Tâche</option>
+                            <option value="team">Équipe</option>
+                        </select>
+                    </div>
+                    <div class="filter-group date-range">
+                        <label>Période</label>
+                        <div class="date-inputs">
+                            <input type="date" id="logStartDate" placeholder="Date de début">
+                            <span class="date-separator">au</span>
+                            <input type="date" id="logEndDate" placeholder="Date de fin">
+                        </div>
+                    </div>
+                    <button id="applyLogFilters" class="btn btn-secondary">
+                        <i class="fas fa-filter"></i> Filtrer
+                    </button>
+                </div>
+
+                <div id="logsTableContainer" class="table-container">
+                    <table id="logsTable" class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Date/Heure</th>
+                                <th>Utilisateur</th>
+                                <th>Action</th>
+                                <th>Entité</th>
+                                <th>Détails</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" class="loading-cell">Chargement des logs...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="logsPagination" class="pagination"></div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Modal pour la création/édition d'un utilisateur -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="userModalTitle">Nouvel utilisateur</h2>
+            <form id="userForm">
+                <input type="hidden" id="userId">
+                <div class="form-group">
+                    <label for="userName">Nom</label>
+                    <input type="text" id="userName" required>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email</label>
+                    <input type="email" id="userEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="userPassword">Mot de passe</label>
+                    <input type="password" id="userPassword">
+                    <small class="form-text">Laissez vide pour ne pas modifier le mot de passe existant</small>
+                </div>
+                <div class="form-group">
+                    <label for="userRole">Rôle</label>
+                    <select id="userRole" required>
+                        <option value="admin">Administrateur</option>
+                        <option value="project_manager">Chef de projet</option>
+                        <option value="contributor">Contributeur</option>
+                    </select>
+                </div>
+                <div class="form-group" id="userTeamContainer">
+                    <label for="userTeam">Équipe</label>
+                    <select id="userTeam">
+                        <option value="">Aucune équipe</option>
+                        <!-- Options chargées dynamiquement -->
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelUserBtn" class="btn btn-secondary">Annuler</button>
+                    <button type="submit" id="saveUserBtn" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal pour la création/édition d'une équipe -->
+    <div id="teamModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="teamModalTitle">Nouvelle équipe</h2>
+            <form id="teamForm">
+                <input type="hidden" id="teamId">
+                <div class="form-group">
+                    <label for="teamName">Nom de l'équipe</label>
+                    <input type="text" id="teamName" required>
+                </div>
+                <div class="form-group">
+                    <label for="teamManager">Chef d'équipe</label>
+                    <select id="teamManager" required>
+                        <option value="">Sélectionner un chef d'équipe</option>
+                        <!-- Options chargées dynamiquement -->
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelTeamBtn" class="btn btn-secondary">Annuler</button>
+                    <button type="submit" id="saveTeamBtn" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal pour les détails de log -->
+    <div id="logDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Détails du log</h2>
+            <div id="logDetails" class="log-details">
+                <div class="loading">Chargement des détails...</div>
+            </div>
+            <div class="modal-actions">
+                <button id="closeLogDetailsBtn" class="btn btn-secondary">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/admin.js"></script>
+</body>
+</html>

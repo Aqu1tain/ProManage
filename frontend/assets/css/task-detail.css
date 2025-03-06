@@ -1,0 +1,167 @@
+/* Styles pour la page détail de tâche */
+
+.task-detail-container {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+}
+
+.task-info-section {
+    flex: 1;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.task-comments-section {
+    flex: 1;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.task-meta {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    align-items: center;
+}
+
+.task-status {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85em;
+}
+
+.status-todo {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.status-in-progress {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-done {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.task-priority {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85em;
+}
+
+.priority-low {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.priority-medium {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.priority-high {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.task-deadline {
+    font-size: 0.9em;
+}
+
+.task-deadline.overdue {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.task-description {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    min-height: 80px;
+}
+
+.task-assignee, .task-dates {
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.task-dates {
+    font-size: 0.9em;
+    color: #777;
+}
+
+.task-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Styles des commentaires */
+.comments-container {
+    margin-bottom: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.comment {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.comment-author {
+    font-weight: bold;
+    color: #333;
+}
+
+.comment-date {
+    color: #777;
+}
+
+.comment-content {
+    margin-top: 8px;
+    color: #555;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: flex-end;
+}
+
+.comment-form {
+    margin-top: 20px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 80px;
+    margin-bottom: 10px;
+    resize: vertical;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .task-detail-container {
+        flex-direction: column;
+    }
+}
