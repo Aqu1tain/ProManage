@@ -8,5 +8,6 @@ const API_CONFIG = {
         PROFILE: "/auth/me",
         PROJECTS: "/projects",
         TASKS: "/tasks",
+        COMMENTS: "/comments",
     },
 };
