@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProManage - Gestion d'équipe</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/team.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 id="teamName">Chargement de l'équipe...</h1>
+            <div class="header-actions">
+                <button id="backBtn">Retour au tableau de bord</button>
+                <button id="logoutBtn">Déconnexion</button>
+            </div>
+        </div>
+        <div id="teamInfo" class="team-info">
+            <div id="invitationKey" class="invitation-key"></div>
+        </div>
+    </header>
+
+    <main>
+        <div class="team-actions">
+            <button id="generateKeyBtn" class="btn btn-primary">Générer une nouvelle clé d'invitation</button>
+        </div>
+
+        <div class="team-container">
+            <div class="team-members-section">
+                <h2>Membres de l'équipe</h2>
+                <div id="membersList" class="members-list">
+                    <div class="loading">Chargement des membres...</div>
+                </div>
+            </div>
+
+            <div class="team-pending-section">
+                <h2>Invitations en attente</h2>
+                <div id="pendingList" class="pending-list">
+                    <div class="loading">Chargement des invitations...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal pour confirmer la suppression d'un membre -->
+    <div id="removeMemberModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Confirmer la suppression</h2>
+            <p>Êtes-vous sûr de vouloir retirer ce membre de l'équipe ?</p>
+            <input type="hidden" id="memberIdToRemove">
+            <div class="modal-actions">
+                <button id="cancelRemoveBtn" class="btn btn-secondary">Annuler</button>
+                <button id="confirmRemoveBtn" class="btn btn-danger">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour afficher la clé d'invitation générée -->
+    <div id="invitationKeyModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Clé d'invitation générée</h2>
+            <p>Partagez cette clé avec les personnes que vous souhaitez inviter à rejoindre votre équipe :</p>
+            <div id="generatedKey" class="generated-key"></div>
+            <div class="copy-key-container">
+                <button id="copyKeyBtn" class="btn btn-primary">Copier la clé</button>
+            </div>
+            <div class="modal-actions">
+                <button id="closeKeyModalBtn" class="btn btn-secondary">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/team.js"></script>
+</body>
+</html>
