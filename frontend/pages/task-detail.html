@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProManage - Détails de la tâche</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/project.css">
+    <link rel="stylesheet" href="../assets/css/task-detail.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 id="taskTitle">Chargement de la tâche...</h1>
+            <div class="header-actions">
+                <button id="backBtn">Retour au projet</button>
+                <button id="logoutBtn">Déconnexion</button>
+            </div>
+        </div>
+        <div class="task-meta">
+            <span id="taskStatus" class="task-status"></span>
+            <span id="taskPriority" class="task-priority"></span>
+            <span id="taskDeadline" class="task-deadline"></span>
+        </div>
+    </header>
+
+    <main>
+        <div class="task-detail-container">
+            <div class="task-info-section">
+                <h2>Détails</h2>
+                <div class="task-description" id="taskDescription"></div>
+                <div class="task-assignee">
+                    <strong>Assigné à:</strong> <span id="taskAssignee">Chargement...</span>
+                </div>
+                <div class="task-dates">
+                    <div><strong>Créé le:</strong> <span id="taskCreatedAt"></span></div>
+                    <div><strong>Dernière mise à jour:</strong> <span id="taskUpdatedAt"></span></div>
+                </div>
+                <div class="task-actions">
+                    <button id="editTaskBtn" class="btn btn-primary">Modifier</button>
+                    <button id="changeStatusBtn" class="btn btn-secondary">Changer le statut</button>
+                </div>
+            </div>
+
+            <div class="task-comments-section">
+                <h2>Commentaires</h2>
+                <div class="comments-container" id="commentsContainer">
+                    <div class="loading">Chargement des commentaires...</div>
+                </div>
+                <form id="commentForm" class="comment-form">
+                    <textarea id="commentContent" placeholder="Ajouter un commentaire..." required></textarea>
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal pour changer le statut -->
+    <div id="statusModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Changer le statut</h2>
+            <form id="statusForm">
+                <div class="form-group">
+                    <label for="newStatus">Nouveau statut</label>
+                    <select id="newStatus">
+                        <option value="todo">À faire</option>
+                        <option value="in_progress">En cours</option>
+                        <option value="done">Terminé</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelStatusBtn">Annuler</button>
+                    <button type="submit" id="saveStatusBtn">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal pour éditer la tâche -->
+    <div id="editTaskModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Modifier la tâche</h2>
+            <form id="editTaskForm">
+                <div class="form-group">
+                    <label for="editTaskTitle">Titre</label>
+                    <input type="text" id="editTaskTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="editTaskDescription">Description</label>
+                    <textarea id="editTaskDescription" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editTaskPriority">Priorité</label>
+                    <select id="editTaskPriority">
+                        <option value="low">Basse</option>
+                        <option value="medium">Moyenne</option>
+                        <option value="high">Haute</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editTaskDeadline">Date d'échéance</label>
+                    <input type="date" id="editTaskDeadline">
+                </div>
+                <div class="form-group">
+                    <label for="editTaskAssignee">Assigné à</label>
+                    <select id="editTaskAssignee">
+                        <!-- Rempli dynamiquement -->
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelEditBtn">Annuler</button>
+                    <button type="submit" id="saveEditBtn">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/task-detail.js"></script>
+</body>
+</html>

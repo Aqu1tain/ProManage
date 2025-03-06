@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProManage - Détails du projet</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/project.css">
+    <!-- Font Awesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 id="projectName">Chargement du projet...</h1>
+            <div class="header-actions">
+                <button id="backBtn" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour
+                </button>
+                <button id="logoutBtn" class="btn btn-danger">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </button>
+            </div>
+        </div>
+        <div id="projectDescription" class="project-description"></div>
+        <div id="projectMeta" class="project-meta">
+            <span id="projectStatus" class="project-status"></span>
+            <span id="projectTeam" class="project-team"></span>
+            <span id="projectDate" class="project-date"></span>
+        </div>
+    </header>
+
+    <main>
+        <div class="project-toolbar">
+            <div class="toolbar-left">
+                <button id="addTaskBtn" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Ajouter une tâche
+                </button>
+            </div>
+            <div class="toolbar-right">
+                <div class="filter-group">
+                    <label for="assigneeFilter">Assigné à</label>
+                    <select id="assigneeFilter">
+                        <option value="">Tous</option>
+                        <!-- Options chargées dynamiquement -->
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="priorityFilter">Priorité</label>
+                    <select id="priorityFilter">
+                        <option value="">Toutes</option>
+                        <option value="high">Haute</option>
+                        <option value="medium">Moyenne</option>
+                        <option value="low">Basse</option>
+                    </select>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchTaskInput" placeholder="Rechercher une tâche...">
+                    <button id="searchTaskBtn" class="btn btn-secondary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-summary">
+            <div class="summary-card">
+                <div class="summary-icon todo-icon">
+                    <i class="fas fa-list"></i>
+                </div>
+                <div class="summary-info">
+                    <h3>À faire</h3>
+                    <div id="todoCount" class="summary-number">0</div>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon progress-icon">
+                    <i class="fas fa-spinner"></i>
+                </div>
+                <div class="summary-info">
+                    <h3>En cours</h3>
+                    <div id="inProgressCount" class="summary-number">0</div>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon done-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="summary-info">
+                    <h3>Terminé</h3>
+                    <div id="doneCount" class="summary-number">0</div>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon completion-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <div class="summary-info">
+                    <h3>Avancement</h3>
+                    <div id="completionRate" class="summary-number">0%</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="projectProgress" class="project-progress">
+            <div id="progressBar" class="progress-bar" style="width: 0%"></div>
+        </div>
+
+        <div class="task-container">
+            <div class="task-column" id="todoColumn">
+                <div class="column-header">
+                    <h2>À faire</h2>
+                    <div class="column-count" id="todoColumnCount">0</div>
+                </div>
+                <div id="todoTasks" class="task-list" data-status="todo">
+                    <div class="loading">Chargement des tâches...</div>
+                </div>
+            </div>
+            <div class="task-column" id="inProgressColumn">
+                <div class="column-header">
+                    <h2>En cours</h2>
+                    <div class="column-count" id="inProgressColumnCount">0</div>
+                </div>
+                <div id="inProgressTasks" class="task-list" data-status="in_progress">
+                    <div class="loading">Chargement des tâches...</div>
+                </div>
+            </div>
+            <div class="task-column" id="doneColumn">
+                <div class="column-header">
+                    <h2>Terminé</h2>
+                    <div class="column-count" id="doneColumnCount">0</div>
+                </div>
+                <div id="doneTasks" class="task-list" data-status="done">
+                    <div class="loading">Chargement des tâches...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal pour ajouter/modifier une tâche -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Ajouter une tâche</h2>
+            <form id="taskForm">
+                <input type="hidden" id="taskId">
+                <div class="form-group">
+                    <label for="taskTitle">Titre</label>
+                    <input type="text" id="taskTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskDescription">Description</label>
+                    <textarea id="taskDescription" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="taskStatus">Statut</label>
+                    <select id="taskStatus">
+                        <option value="todo">À faire</option>
+                        <option value="in_progress">En cours</option>
+                        <option value="done">Terminé</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskPriority">Priorité</label>
+                    <select id="taskPriority">
+                        <option value="low">Basse</option>
+                        <option value="medium">Moyenne</option>
+                        <option value="high">Haute</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taskDeadline">Date d'échéance</label>
+                    <input type="date" id="taskDeadline">
+                </div>
+                <div class="form-group">
+                    <label for="taskAssignee">Assigné à</label>
+                    <select id="taskAssignee">
+                        <option value="">Non assigné</option>
+                        <!-- Les options seront remplies dynamiquement -->
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" id="cancelBtn" class="btn btn-secondary">Annuler</button>
+                    <button type="submit" id="saveTaskBtn" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de confirmation pour la suppression -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h2>Confirmation</h2>
+            <p id="confirmMessage">Êtes-vous sûr de vouloir supprimer cette tâche?</p>
+            <div class="modal-actions">
+                <button id="cancelConfirmBtn" class="btn btn-secondary">Annuler</button>
+                <button id="confirmBtn" class="btn btn-danger">Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/project.js"></script>
+</body>
+</html>
