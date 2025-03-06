@@ -1,4 +1,17 @@
-# ProManage
+<div align="center">
+
+# ════ ACADEMIC PROJECT ════
+
+###  ProManage 🦾
+
+**⟦** <a href="https://www.supdevinci.fr/" target="_blank">SUP DE VINCI</a> **⟧** 
+
+*Bachelor's Degree*
+
+▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔
+
+</div>
+
 
 ProManage est une plateforme SaaS de gestion de projets conçue pour les équipes d'étudiants et les petites équipes collaboratives. Elle permet de créer des projets, gérer des tâches, suivre l'avancement et collaborer efficacement.
 
@@ -14,7 +27,7 @@ ProManage est une plateforme SaaS de gestion de projets conçue pour les équipe
 ## 💻 Prérequis
 
 - Node.js (v14 ou supérieur)
-- MySQL/MariaDB
+- PostgreSQL
 - MongoDB
 - npm ou yarn
 
@@ -26,8 +39,9 @@ ProManage est une plateforme SaaS de gestion de projets conçue pour les équipe
    cd ProManage
    ```
 
-2. **Installer les dépendances**
+2. **Installer les dépendances backend**
    ```bash
+   cd backend
    npm install
    ```
 
@@ -43,10 +57,10 @@ ProManage est une plateforme SaaS de gestion de projets conçue pour les équipe
    ```
 
 5. **Accéder à l'application**
-   - Backend API: http://localhost:3000
-   - L'interface frontend sera disponible lors de la phase suivante du développement
+   - Backend API: http://localhost:5000/api
+   - L'interface frontend est disponible. Il suffit d'ouvrir frontend/index.html
 
-## 🏗️ Structure du projet
+## 🏗️ Structure du backend
 
 ```
 /
@@ -64,9 +78,9 @@ ProManage est une plateforme SaaS de gestion de projets conçue pour les équipe
 ## 🛠️ Technologies
 
 - **Backend**: Node.js avec Express
-- **Base de données**: MySQL (via Sequelize) pour les données principales, MongoDB pour les logs
+- **Base de données**: PostgreSQL (via Sequelize) pour les données principales, MongoDB pour les logs
 - **Authentification**: JWT
-- **Frontend**: React (à venir)
+- **Frontend**: Vanilla
 
 ## 👥 Équipe de développement
 
